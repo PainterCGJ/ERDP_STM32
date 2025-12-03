@@ -1,0 +1,44 @@
+# clangd 配置文件
+# 注意：clangd 会自动查找 compile_commands.json（在项目根目录或 Build/Debug 目录）
+# 对于嵌入式开发，交叉编译器的标准库可能不完整，需要添加标准库路径
+
+CompileFlags:
+  Add:
+    - -mcpu=cortex-m4
+    - -mfpu=fpv4-sp-d16
+    - -mfloat-abi=hard
+    - -mthumb
+    - -DSTM32F40_41xxx
+    - -DUSE_STDPERIPH_DRIVER
+    - -DARM_MATH_CM4
+    - -D__FPU_PRESENT=1
+    - -D__FPU_USED=1
+    - -std=c++17
+    - -fno-exceptions
+    - -fno-rtti
+    # 添加交叉编译器的标准库路径
+    # 注意：路径中的版本号可能需要根据实际安装的版本调整
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/include/c++/13.2.1
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/include/c++/13.2.1/arm-none-eabi
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/include/c++/13.2.1/backward
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/include
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/include-fixed
+    - -isystem
+    - D:/Material/environment/Tools/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/include
+  Remove:
+    - -W*
+    # 移除可能导致问题的标志
+    - -fdata-sections
+    - -ffunction-sections
+    - -fno-threadsafe-statics
+
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
+
+

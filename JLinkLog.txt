@@ -1,0 +1,168 @@
+T22314 000:205.609   SEGGER J-Link V7.96 Log File
+T22314 000:205.719   DLL Compiled: Mar  7 2024 16:45:42
+T22314 000:205.724   Logging started @ 2025-12-03 09:10
+T22314 000:205.729   Process: D:\Users\painter\AppData\Local\Keil_v5\UV4\UV4.exe
+T22314 000:205.737 - 205.733ms
+T22314 000:205.745 JLINK_SetWarnOutHandler(...)
+T22314 000:205.750 - 0.006ms
+T22314 000:205.756 JLINK_OpenEx(...)
+T22314 000:208.143   Firmware: J-Link V11 compiled Mar 14 2024 13:16:08
+T22314 000:209.002   Firmware: J-Link V11 compiled Mar 14 2024 13:16:08
+T22314 000:228.478   Hardware: V11.00
+T22314 000:228.501   S/N: 601012352
+T22314 000:228.508   OEM: SEGGER
+T22314 000:228.515   Feature(s): RDI, FlashBP, FlashDL, JFlash, GDB
+T22314 000:230.023   Bootloader: (Could not read)
+T22314 000:230.493   USB speed mode: High speed (480 MBit/s)
+T22314 000:230.869   TELNET listener socket opened on port 19021
+T22314 000:230.962   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T22314 000:231.131   WEBSRV Webserver running on local port 19080
+T22314 000:231.241   Looking for J-Link GUI Server exe at: D:\Users\painter\AppData\Local\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T22314 000:231.309   Looking for J-Link GUI Server exe at: D:\Program Files\SEGGER\JLink_V796\\JLinkGUIServer.exe
+T22314 000:231.323   Forking J-Link GUI Server: D:\Program Files\SEGGER\JLink_V796\\JLinkGUIServer.exe
+T22314 000:256.592   J-Link GUI Server info: "J-Link GUI server V7.96 "
+T22314 000:259.812 - 54.040ms returns "O.K."
+T22314 000:259.849 JLINK_GetEmuCaps()
+T22314 000:259.859 - 0.007ms returns 0xB9FF7BBF
+T22314 000:259.869 JLINK_TIF_GetAvailable(...)
+T22314 000:260.013 - 0.144ms
+T22314 000:260.033 JLINK_SetErrorOutHandler(...)
+T22314 000:260.037 - 0.004ms
+T22314 000:260.065 JLINK_ExecCommand("ProjectFile = "D:\Projecrt\ERDP_STM32\JLinkSettings.ini"", ...). 
+T22314 000:269.767   XML file found at: C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\CXSemi\CX310\CXSemi.xml
+T22314 000:270.419   C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\CXSemi\CX310\CXSemi.xml evaluated successfully.
+T22314 000:270.431     Device entry created:  CX310
+T22314 000:270.436       ChipInfo:
+T22314 000:270.442         Vendor:          CXSemi
+T22314 000:270.447         Name:            CX310
+T22314 000:270.453         WorkRAMAddr:     0x04030000
+T22314 000:270.459         WorkRAMSize:     0x00004000
+T22314 000:270.473         Core:            JLINK_CORE_CORTEX_M33
+T22314 000:270.479       FlashBankInfo:
+T22314 000:270.484         Name:            QSPI Flash
+T22314 000:270.490         BaseAddr:        0x08000000
+T22314 000:270.556         LoaderInfo:
+T22314 000:270.562           Name:            QSPI_Flash
+T22314 000:270.567           MaxSize:         0x000F0000
+T22314 000:270.573           Loader:          C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\CXSemi\CX310\CX310.FLM
+T22314 000:270.579           LoaderType:      FLASH_ALGO_TYPE_OPEN
+T22314 000:271.181   XML file found at: C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\HDSC\HDSC.xml
+T22314 000:271.777   C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\HDSC\HDSC.xml evaluated successfully.
+T22314 000:271.794     Device entry created:  HC32L19x
+T22314 000:271.798       ChipInfo:
+T22314 000:271.804         Vendor:          HDSC
+T22314 000:271.809         Name:            HC32L19x
+T22314 000:271.815         WorkRAMAddr:     0x20000000
+T22314 000:271.820         WorkRAMSize:     0x00008000
+T22314 000:271.826         Core:            JLINK_CORE_CORTEX_M0
+T22314 000:271.832       FlashBankInfo:
+T22314 000:271.837         Name:            Flash_256K
+T22314 000:271.897         AlwaysPresent:   1
+T22314 000:271.903         LoaderInfo:
+T22314 000:271.908           Name:            Flash_256K
+T22314 000:271.913           MaxSize:         0x00040000
+T22314 000:271.919           Loader:          C:\Users\painter\AppData\Roaming\SEGGER\JLinkDevices\Devices\HDSC\FlashHC32L19X_256K.FLM
+T22314 000:271.925           LoaderType:      FLASH_ALGO_TYPE_OPEN
+T22314 000:272.078   Ref file found at: D:\Users\painter\AppData\Local\Keil_v5\ARM\Segger\JLinkDevices.ref
+T22314 000:272.173   REF file references invalid XML file: D:\Program Files\SEGGER\JLink_V796\JLinkDevices.xml
+T22314 000:272.844 - 12.779ms returns 0x00
+T22314 000:272.870 JLINK_ExecCommand("Device = STM32F407VETx", ...). 
+T22314 000:273.221   Device "STM32F407VE" selected.
+T22314 000:273.438 - 0.562ms returns 0x00
+T22314 000:273.446 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T22314 000:273.453 - 0.001ms returns 0x01
+T22314 000:273.458 JLINK_GetHardwareVersion()
+T22314 000:273.464 - 0.003ms returns 110000
+T22314 000:273.469 JLINK_GetDLLVersion()
+T22314 000:273.472 - 0.003ms returns 79600
+T22314 000:273.476 JLINK_GetOEMString(...)
+T22314 000:273.480 JLINK_GetFirmwareString(...)
+T22314 000:273.484 - 0.004ms
+T22314 000:273.490 JLINK_GetDLLVersion()
+T22314 000:273.494 - 0.003ms returns 79600
+T22314 000:273.498 JLINK_GetCompileDateTime()
+T22314 000:273.501 - 0.003ms
+T22314 000:273.506 JLINK_GetFirmwareString(...)
+T22314 000:273.510 - 0.003ms
+T22314 000:273.514 JLINK_GetHardwareVersion()
+T22314 000:273.518 - 0.003ms returns 110000
+T22314 000:273.522 JLINK_GetSN()
+T22314 000:273.526 - 0.003ms returns 601012352
+T22314 000:273.530 JLINK_GetOEMString(...)
+T22314 000:273.536 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T22314 000:274.251 - 0.714ms returns 0x00
+T22314 000:274.262 JLINK_HasError()
+T22314 000:274.279 JLINK_SetSpeed(5000)
+T22314 000:274.375 - 0.096ms
+T22314 000:274.756 JLINK_HasError()
+T22314 000:274.772 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T22314 000:274.778 - 0.006ms returns JLINKARM_RESET_TYPE_NORMAL
+T22314 000:274.795 JLINK_Reset()
+T22314 000:274.949   InitTarget() start
+T22314 000:274.958    J-Link Script File: Executing InitTarget()
+T22314 000:275.249   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 000:375.786   Error: Failed to initialized DAP.
+T22314 000:375.808   Can not attach to CPU. Trying connect under reset.
+T22314 000:426.393   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 000:526.796   Error: Failed to initialized DAP.
+T22314 000:526.826   Connecting to CPU via connect under reset failed.
+T22314 000:645.033   InitTarget() end - Took 370ms
+T22314 000:645.076   Connect failed. Resetting via Reset pin and trying again.
+T22314 000:706.637   InitTarget() start
+T22314 000:706.677    J-Link Script File: Executing InitTarget()
+T22314 000:706.904   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 000:807.803   Error: Failed to initialized DAP.
+T22314 000:807.826   Can not attach to CPU. Trying connect under reset.
+T22314 000:858.785   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 000:959.809   Error: Failed to initialized DAP.
+T22314 000:959.838   Connecting to CPU via connect under reset failed.
+T22314 001:010.256   InitTarget() end - Took 303ms
+T22314 001:010.280 - 735.484ms
+T22314 001:010.300 JLINK_GetId()
+T22314 001:010.424   InitTarget() start
+T22314 001:010.433    J-Link Script File: Executing InitTarget()
+T22314 001:010.795   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:111.862   Error: Failed to initialized DAP.
+T22314 001:111.890   Can not attach to CPU. Trying connect under reset.
+T22314 001:162.602   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:263.957   Error: Failed to initialized DAP.
+T22314 001:264.001   Connecting to CPU via connect under reset failed.
+T22314 001:314.935   InitTarget() end - Took 304ms
+T22314 001:314.962   Connect failed. Resetting via Reset pin and trying again.
+T22314 001:376.793   InitTarget() start
+T22314 001:376.834    J-Link Script File: Executing InitTarget()
+T22314 001:377.061   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:477.894   Error: Failed to initialized DAP.
+T22314 001:477.940   Can not attach to CPU. Trying connect under reset.
+T22314 001:528.381   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:628.879   Error: Failed to initialized DAP.
+T22314 001:628.915   Connecting to CPU via connect under reset failed.
+T22314 001:745.280   InitTarget() end - Took 368ms
+T22314 001:745.327 - 735.026ms returns 0x00000000
+T22314 001:745.420 JLINK_GetId()
+T22314 001:745.551   InitTarget() start
+T22314 001:745.559    J-Link Script File: Executing InitTarget()
+T22314 001:745.841   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:846.938   Error: Failed to initialized DAP.
+T22314 001:846.967   Can not attach to CPU. Trying connect under reset.
+T22314 001:897.624   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 001:999.001   Error: Failed to initialized DAP.
+T22314 001:999.031   Connecting to CPU via connect under reset failed.
+T22314 002:145.375   InitTarget() end - Took 399ms
+T22314 002:145.413   Connect failed. Resetting via Reset pin and trying again.
+T22314 002:207.348   InitTarget() start
+T22314 002:207.384    J-Link Script File: Executing InitTarget()
+T22314 002:207.611   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 002:308.976   Error: Failed to initialized DAP.
+T22314 002:309.019   Can not attach to CPU. Trying connect under reset.
+T22314 002:359.996   SWD selected. Executing JTAG -> SWD switching sequence.
+T22314 002:460.941   Error: Failed to initialized DAP.
+T22314 002:460.970   Connecting to CPU via connect under reset failed.
+T22314 002:512.056   InitTarget() end - Took 304ms
+T22314 002:512.078 - 766.658ms returns 0x00000000
+T22314 002:520.310 JLINK_GetFirmwareString(...)
+T22314 002:520.337 - 0.026ms
+T22314 012:029.544 JLINK_Close()
+T22314 012:042.567 - 13.021ms
+T22314 012:042.608   
+T22314 012:042.613   Closed

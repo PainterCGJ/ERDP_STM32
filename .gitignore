@@ -1,0 +1,36 @@
+Project/MDK/.vscode
+Project/MDK/Objects
+
+Project/MDK/*.uvguix.*
+Project/MDK/*.uvoptx
+Project/MDK/Listings
+Project/MDK/*.scvd
+Build
+Listings
+*.uvoptx
+*.uvguix.*
+.vscode
+
+# CMake build directories
+build/
+cmake-build-*/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.cmake
+!cmake/*.cmake
+
+# Compiled files
+*.elf
+*.hex
+*.bin
+*.map
+*.o
+*.d
+
+# Source/Kernel
+# Source/Application
+# Source/HAL
+# Source/Interface

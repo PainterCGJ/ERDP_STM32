@@ -2,10 +2,10 @@
 set(OPENOCD_EXECUTABLE "openocd")
 
 # 定义默认烧录器（可以通过 CMake 变量 FLASH_PROGRAMMER 来切换）
-# 可选值: STLINK, STLINK_SLOW, DAP
+# 可选值: STLINK, STLINK_SLOW, DAP, DAP_SLOW
 # 默认使用慢速模式以提高稳定性
 if(NOT DEFINED FLASH_PROGRAMMER)
-    set(FLASH_PROGRAMMER "STLINK_SLOW" CACHE STRING "Flash programmer type: STLINK, STLINK_SLOW, or DAP")
+    set(FLASH_PROGRAMMER "DAP" CACHE STRING "Flash programmer type: STLINK, STLINK_SLOW, DAP, or DAP_SLOW")
 endif()
 
 # 根据选择的烧录器设置配置文件路径
@@ -18,8 +18,11 @@ elseif(FLASH_PROGRAMMER STREQUAL "STLINK_SLOW")
 elseif(FLASH_PROGRAMMER STREQUAL "DAP")
     set(FLASH_CFG_FILE "${PROJECT_SOURCE_DIR}/Scripts/OpenOCD/openocd_dap.cfg")
     set(FLASH_PROGRAMMER_NAME "CMSIS-DAP")
+elseif(FLASH_PROGRAMMER STREQUAL "DAP_SLOW")
+    set(FLASH_CFG_FILE "${PROJECT_SOURCE_DIR}/Scripts/OpenOCD/openocd_dap_slow.cfg")
+    set(FLASH_PROGRAMMER_NAME "CMSIS-DAP (Slow)")
 else()
-    message(FATAL_ERROR "Unknown flash programmer: ${FLASH_PROGRAMMER}. Use STLINK, STLINK_SLOW, or DAP")
+    message(FATAL_ERROR "Unknown flash programmer: ${FLASH_PROGRAMMER}. Use STLINK, STLINK_SLOW, DAP, or DAP_SLOW")
 endif()
 
 message(STATUS "Using flash programmer: ${FLASH_PROGRAMMER_NAME}")
@@ -75,6 +78,19 @@ add_custom_target(flash_dap
             -c "shutdown"
     DEPENDS ${CMAKE_PROJECT_NAME}
     COMMENT "Flashing ${CMAKE_PROJECT_NAME}.elf to target via CMSIS-DAP"
+    USES_TERMINAL
+)
+
+add_custom_target(flash_dap_slow
+    COMMAND ${CMAKE_COMMAND} -E echo "Flashing firmware to target via CMSIS-DAP (Slow)..."
+    COMMAND ${OPENOCD_EXECUTABLE} 
+            -f ${PROJECT_SOURCE_DIR}/Scripts/OpenOCD/openocd_dap_slow.cfg
+            -c "init"
+            -c "reset halt"
+            -c "program $<TARGET_FILE:${CMAKE_PROJECT_NAME}> verify reset"
+            -c "shutdown"
+    DEPENDS ${CMAKE_PROJECT_NAME}
+    COMMENT "Flashing ${CMAKE_PROJECT_NAME}.elf to target via CMSIS-DAP (Slow)"
     USES_TERMINAL
 )
 

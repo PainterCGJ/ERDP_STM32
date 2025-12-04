@@ -41,9 +41,9 @@ void erdp_if_gpio_init(ERDP_GpioPort_t port, ERDP_GpioPin_t pin, ERDP_GpioPinMod
     // Initialize the GPIO pin
     uint32_t gpio_periph = erdp_if_gpio_get_port(port);
     uint32_t gpio_pin = erdp_if_gpio_get_pin(pin);
-    GPIOMode_TypeDef gpio_mode = 0;
-    GPIOPuPd_TypeDef gpio_pull = 0;
-    GPIOSpeed_TypeDef gpio_speed = 0;
+    GPIOMode_TypeDef gpio_mode = GPIO_Mode_IN;
+    GPIOPuPd_TypeDef gpio_pull = GPIO_PuPd_NOPULL;
+    GPIOSpeed_TypeDef gpio_speed = GPIO_Low_Speed;
 
     switch (mode) {
         case ERDP_GPIO_PIN_MODE_INPUT:

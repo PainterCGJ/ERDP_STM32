@@ -1,6 +1,11 @@
 #include "erdp_osal.hpp"
 #include <new>
 #include <cstring>
+#include <stdlib.h>
+#include <stddef.h>
+#include <string.h>
+#include "erdp_if_rtos.h"
+
 extern "C" {
 
 // 必须使用 volatile，且严格返回 0/1
@@ -14,6 +19,87 @@ void __cxa_guard_release(volatile int* guard_object) {
 
 void __cxa_guard_abort(volatile int*) {
     // 可选实现，一般忽略
+}
+
+/**
+ * @brief 覆盖标准库的 malloc，使用 FreeRTOS 堆管理
+ * @param size 要分配的内存大小（字节）
+ * @return 指向分配内存的指针，失败返回 NULL
+ */
+void *malloc(size_t size)
+{
+    return erdp_if_rtos_malloc(size);
+}
+
+/**
+ * @brief 覆盖标准库的 free，使用 FreeRTOS 堆管理
+ * @param ptr 要释放的内存指针
+ */
+void free(void *ptr)
+{
+    erdp_if_rtos_free(ptr);
+}
+
+/**
+ * @brief 覆盖标准库的 calloc，分配并清零内存
+ * @param num 元素数量
+ * @param size 每个元素的大小（字节）
+ * @return 指向分配内存的指针，失败返回 NULL
+ */
+void *calloc(size_t num, size_t size)
+{
+    // 检查溢出：如果 num * size 会溢出，返回 NULL
+    if (num != 0 && size > (SIZE_MAX / num))
+    {
+        return NULL;
+    }
+    
+    size_t total_size = num * size;
+    void *ptr = erdp_if_rtos_malloc(total_size);
+    if (ptr != NULL)
+    {
+        memset(ptr, 0, total_size);
+    }
+    return ptr;
+}
+
+/**
+ * @brief 覆盖标准库的 realloc，重新分配内存
+ * @param ptr 原内存指针（可以为 NULL）
+ * @param size 新的内存大小（字节）
+ * @return 指向重新分配内存的指针，失败返回 NULL
+ * @warning 由于 FreeRTOS heap_4 不提供获取已分配内存块大小的接口，
+ *          此实现无法自动复制原有数据。调用者需要自己处理数据迁移。
+ *          建议：如果需要保留数据，调用者应记录原大小并手动复制数据。
+ */
+void *realloc(void *ptr, size_t size)
+{
+    // 如果 ptr 为 NULL，等同于 malloc
+    if (ptr == NULL)
+    {
+        return erdp_if_rtos_malloc(size);
+    }
+
+    // 如果 size 为 0，等同于 free
+    if (size == 0)
+    {
+        erdp_if_rtos_free(ptr);
+        return NULL;
+    }
+
+    // 分配新内存
+    void *new_ptr = erdp_if_rtos_malloc(size);
+    if (new_ptr == NULL)
+    {
+        return NULL;
+    }
+
+    // 注意：FreeRTOS heap_4 的内存块头部信息不对外暴露，
+    // 无法获取原内存块大小，因此无法自动复制数据。
+    // 调用者需要自己处理数据迁移（如果需要保留数据）。
+    
+    erdp_if_rtos_free(ptr);
+    return new_ptr;
 }
 
 }

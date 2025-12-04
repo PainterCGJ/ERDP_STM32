@@ -7,7 +7,7 @@ extern "C"
 #endif // __cplusplus
 
 #include <stdint.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdbool.h>
 #include "erdp_assert.h"
     typedef enum

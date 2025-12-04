@@ -2,9 +2,9 @@
 #define __ERDP_HEAP_HPP__
 #include <cstddef>
 #include <stdint.h>
+#include <cstdio>
 #include "erdp_assert.h"
 #include "erdp_config.h"
-#include "printf.h"
 #define HEAP4_DEBUG 0
 
 #ifndef ERDP_ENABLE_RTOS

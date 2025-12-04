@@ -2,6 +2,7 @@
 #define ERDP_ASSERT_H
 
 #include "erdp_config.h"
+#include <stdio.h>
 #ifdef ERDP_ENABLE_ASSERT
 #ifndef erdp_assert
 #define erdp_assert(condition)                                                \

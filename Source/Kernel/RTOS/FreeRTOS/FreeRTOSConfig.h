@@ -49,7 +49,6 @@
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
 #include <stdint.h>
 #include <stdio.h>
-#include "printf.h"
 #include "stm32f4xx.h"
 #include "erdp_config.h"
 extern uint32_t SystemCoreClock;

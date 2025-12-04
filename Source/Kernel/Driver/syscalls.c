@@ -11,6 +11,16 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+/* Define caddr_t if not already defined */
+#ifndef _CADDR_T_DECLARED
+typedef char *caddr_t;
+#define _CADDR_T_DECLARED
+#endif
+
+/* External symbols from linker script */
+extern char _end;      /* End of BSS section, start of heap */
+extern char _estack;   /* End of RAM, top of stack */
+
 /**
  * @brief  Exit program
  * @param  status Exit status
@@ -126,4 +136,33 @@ int _isatty(int file)
     return 1;
 }
 
+/**
+ * @brief  Program break (heap) management
+ * @param  incr Increment in bytes
+ * @retval Previous program break, or (caddr_t)-1 on error
+ * @note   This function is required by malloc/free and other heap operations
+ */
+caddr_t _sbrk(int incr)
+{
+    static char *heap_end = NULL;
+    char *prev_heap_end;
+
+    if (heap_end == NULL)
+    {
+        /* First call, initialize heap_end to _end */
+        heap_end = &_end;
+    }
+
+    prev_heap_end = heap_end;
+
+    /* Check if heap would overflow into stack */
+    if (heap_end + incr > &_estack)
+    {
+        errno = ENOMEM;
+        return (caddr_t)-1;
+    }
+
+    heap_end += incr;
+    return (caddr_t)prev_heap_end;
+}
 

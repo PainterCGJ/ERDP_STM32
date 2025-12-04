@@ -27,8 +27,8 @@ void Logger::log_output_impl(const uint8_t *message, uint32_t len) {
 #elif LOGGER_QUEUE_MODE == LOGGER_MULTI_QUEUE_MODE
     uint8_t i = 0;
     for (; i < LOG_MESSAGE_NUM; i++) {
-        if (message_handler[i].event.get() & MSG_EVENT_IDLE) {
-            message_handler[i].event.clear(MSG_EVENT_IDLE);
+        if (message_handler[i].event && (message_handler[i].event->get() & MSG_EVENT_IDLE)) {
+            message_handler[i].event->clear(MSG_EVENT_IDLE);
             while (len > 0) {
                 if (message_handler[i].log_queue.push(*message++)) {
                     len--;
@@ -37,7 +37,7 @@ void Logger::log_output_impl(const uint8_t *message, uint32_t len) {
                     break;
                 }
             }
-            message_handler[i].event.set(MSG_EVENT_WAITING);
+            message_handler[i].event->set(MSG_EVENT_WAITING);
             order_queue.push(i);
             if (len == 0) {
                 break;
@@ -146,11 +146,11 @@ void Logger::log_thread_code() {
 #elif LOGGER_QUEUE_MODE == LOGGER_MULTI_QUEUE_MODE
         uint8_t index = 0;
         while (order_queue.pop(index)) {
-            message_handler[index].event.clear(MSG_EVENT_WAITING);
+            message_handler[index].event->clear(MSG_EVENT_WAITING);
             while (message_handler[index].log_queue.pop(data)) {
                 uart_dev->send(&data, 1);
             }
-            message_handler[index].event.set(MSG_EVENT_IDLE);
+            message_handler[index].event->set(MSG_EVENT_IDLE);
         }
 #endif
         erdp::Thread::delay_ms(2);    // 10ms

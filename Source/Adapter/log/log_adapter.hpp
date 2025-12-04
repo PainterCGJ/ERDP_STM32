@@ -65,7 +65,8 @@ class Logger {
         order_queue.init(LOG_MESSAGE_NUM);
         for (uint8_t i = 0; i < LOG_MESSAGE_NUM; i++) {
             message_handler[i].log_queue.init(LOG_MESSAGE_LEN);
-            message_handler[i].event.set(MSG_EVENT_IDLE);
+            message_handler[i].event = new erdp::Event();
+            message_handler[i].event->set(MSG_EVENT_IDLE);
         }
 #endif
         log_thread.join();
@@ -82,8 +83,9 @@ class Logger {
     static erdp::Mutex log_mutex;
 #elif (LOGGER_QUEUE_MODE == LOGGER_MULTI_QUEUE_MODE)
     typedef struct MsgHandler {
-        erdp::Event event;
+        erdp::Event *event;
         erdp::Queue<uint8_t> log_queue;
+        MsgHandler() : event(nullptr) {}
     } MsgHandler;
     static MsgHandler message_handler[LOG_MESSAGE_NUM];
     static erdp::Queue<uint8_t> order_queue;

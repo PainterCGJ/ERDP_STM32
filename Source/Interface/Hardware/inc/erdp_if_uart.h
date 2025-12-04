@@ -15,7 +15,6 @@ typedef enum
     ERDP_UART4,
     ERDP_UART5,
     ERDP_UART6,
-    ERDP_UART7,
     ERDP_UART_NUM, // Maximum number of UARTs
 } ERDP_Uart_t;
 
@@ -87,14 +86,6 @@ void erdp_if_uart_send_bytes(ERDP_Uart_t uart, const uint8_t* data, uint32_t len
  * @return None
  */
 void erdp_if_uart_read_byte(ERDP_Uart_t uart, uint8_t* data);
-
-/**
- * @brief Get the status of specified UART interrupt flag
- * @param[in] uart: UART port number to check
- * @param[in] flag: Interrupt flag type to query
- * @return Status of the interrupt flag (ERDP_SET/ERDP_RESET)
- */
-ERDP_Status_t erdp_if_uart_int_flag_get(ERDP_Uart_t uart, ERDP_UartIrqFlag_t flag);
 
 #ifdef __cplusplus
  }

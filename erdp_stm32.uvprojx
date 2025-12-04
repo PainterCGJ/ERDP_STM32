@@ -190,7 +190,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -329,7 +329,7 @@
             <uC99>1</uC99>
             <uGnu>1</uGnu>
             <useXO>0</useXO>
-            <v6Lang>3</v6Lang>
+            <v6Lang>4</v6Lang>
             <v6LangP>8</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
@@ -408,18 +408,6 @@
         </Group>
         <Group>
           <GroupName>Service</GroupName>
-          <Files>
-            <File>
-              <FileName>log_adapter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\Source\Adapter\log\log_adapter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>log_adapter.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Adapter\log\log_adapter.hpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Board</GroupName>
@@ -428,14 +416,9 @@
           <GroupName>Library</GroupName>
           <Files>
             <File>
-              <FileName>log.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Library\log\log.hpp</FilePath>
-            </File>
-            <File>
-              <FileName>printf.c</FileName>
+              <FileName>log.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\Library\printf\printf.c</FilePath>
+              <FilePath>.\Source\Library\log\log.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -758,14 +741,19 @@
               <FilePath>.\Source\Kernel\Driver\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Kernel\Driver\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+            </File>
+            <File>
               <FileName>startup_stm32f40_41xxx.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Source\Kernel\Driver\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s</FilePath>
             </File>
             <File>
-              <FileName>system_stm32f4xx.c</FileName>
+              <FileName>syscalls.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\Kernel\Driver\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c</FilePath>
+              <FilePath>.\Source\Kernel\syscalls.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -816,6 +804,11 @@
               <FileName>heap_4.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\Kernel\RTOS\FreeRTOS\port\MemMang\heap_4.c</FilePath>
+            </File>
+            <File>
+              <FileName>FreeRTOSConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Kernel\RTOS\FreeRTOS\FreeRTOSConfig.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -408,6 +408,18 @@
         </Group>
         <Group>
           <GroupName>Service</GroupName>
+          <Files>
+            <File>
+              <FileName>log_adapter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Source\Adapter\log\log_adapter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>log_adapter.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Adapter\log\log_adapter.hpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Board</GroupName>

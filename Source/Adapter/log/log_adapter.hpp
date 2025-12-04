@@ -1,10 +1,20 @@
 #ifndef __LOG_ADAPTER_HPP__
 #define __LOG_ADAPTER_HPP__
+
+#include <stdio.h>
+#include <string>
+#include <stdint.h>
+#include <cstdarg>
+
 #include "erdp_hal_uart.hpp"
 #include "erdp_osal.hpp"
-#include "log.hpp"
-#include "printf.h"
+#include "log.h"
 #include "thread_config.h"
+
+// 前向声明用户自定义的日志输出函数
+extern "C" {
+    void log_output(const uint8_t *message, uint32_t len);
+}
 
 #define LOGGER_SINGLE_QUEUE_MODE 0
 #define LOGGER_MULTI_QUEUE_MODE  1
@@ -21,17 +31,18 @@
 #define MSG_EVENT_WAITING (OS_EventBits)((uint32_t)1 << 1)
 #endif
 
-class Logger : public LogInterface {
+class Logger {
    public:
     Logger() : log_thread([this]() { this->log_thread_code(); }, "LoggerThread", LOG_PRIO, LOG_THREAD_STACK_SIZE) {
-        set_pattern("[%t][%L][%M]: %m\n");
-        set_tag(LogLevel::ERROR, "\033[31mERROR\033[0m");
-        set_tag(LogLevel::WARN, "\033[33mWARN\033[0m");
-        set_tag(LogLevel::DEBUG, "\033[37mDEBUG\033[0m");
-        set_tag(LogLevel::INFO, "\033[94mINFO\033[0m");
-        set_tag(LogLevel::TRACE, "\033[90mTRACE\033[0m");
+        log_init(&logger, log_output);
+        log_set_pattern(&logger, "[%t][%L][%M]: %m\n");
+        log_set_tag(&logger, LOG_LEVEL_ERROR, "\033[31mERROR\033[0m");
+        log_set_tag(&logger, LOG_LEVEL_WARN, "\033[33mWARN\033[0m");
+        log_set_tag(&logger, LOG_LEVEL_DEBUG, "\033[37mDEBUG\033[0m");
+        log_set_tag(&logger, LOG_LEVEL_INFO, "\033[94mINFO\033[0m");
+        log_set_tag(&logger, LOG_LEVEL_TRACE, "\033[90mTRACE\033[0m");
 
-        logger.set_level(LogLevel::TRACE);
+        log_set_level(&logger, LOG_LEVEL_TRACE);
         log_en = true;
     };
     ~Logger() = default;
@@ -45,8 +56,8 @@ class Logger : public LogInterface {
 
     static void t(const char *module, const uint8_t *data, uint32_t len);
 
-    static void set_pattern(const std::string &pattern) { logger.set_pattern(pattern); }
-    void log_output(const uint8_t *message, uint32_t len) override;
+    static void set_pattern(const std::string &pattern) { log_set_pattern(&logger, pattern.c_str()); }
+    static void log_output_impl(const uint8_t *message, uint32_t len);
     void start() {
 #if (LOGGER_QUEUE_MODE == LOGGER_SINGLE_QUEUE_MODE)
         log_queue.init(LOG_MESSAGE_LEN);
@@ -60,11 +71,11 @@ class Logger : public LogInterface {
         log_thread.join();
     }
 
-    static void set_tag(LogLevel level, const std::string &tag) { logger.set_tag(level, tag); }
+    static void set_tag(log_level_t level, const std::string &tag) { log_set_tag(&logger, level, tag.c_str()); }
 
    private:
     static void cal_time(char *str);
-    static Log<Logger> logger;
+    static log_t logger;
     void log_thread_code();
 #if (LOGGER_QUEUE_MODE == LOGGER_SINGLE_QUEUE_MODE)
     static erdp::Queue<uint8_t> log_queue;

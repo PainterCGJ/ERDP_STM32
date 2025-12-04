@@ -1,8 +1,8 @@
 #include "log_adapter.hpp"
-
+#include "log.h"
 #include "erdp_hal_uart.hpp"
 
-Log<Logger> Logger::logger;
+log_t Logger::logger;
 bool Logger::log_en = false;
 #if (LOGGER_QUEUE_MODE == LOGGER_SINGLE_QUEUE_MODE)
 erdp::Queue<uint8_t> Logger::log_queue;
@@ -11,86 +11,11 @@ erdp::Mutex Logger::log_mutex;
 Logger::MsgHandler Logger::message_handler[LOG_MESSAGE_NUM];
 erdp::Queue<uint8_t> Logger::order_queue;
 #endif
-void Logger::cal_time(char *str) {
-    // 计算小时、分钟、秒和毫秒
 
-    uint32_t timestamp = erdp::Thread::get_system_1ms_ticks();
-    uint32_t hours = timestamp / (1000 * 60 * 60);
-    timestamp %= (1000 * 60 * 60);
-    uint32_t minutes = timestamp / (1000 * 60);
-    timestamp %= (1000 * 60);
-    uint32_t seconds = timestamp / 1000;
-    uint32_t milliseconds = timestamp % 1000;
-
-    // 使用 sprintf 将格式化的时间写入 str
-    sprintf(str, "%02u:%02u:%02u.%03u", hours, minutes, seconds, milliseconds);
-}
-
-void Logger::i(const char *module, const char *format, ...) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    va_list args;
-    va_start(args, format);
-    logger.vinfo(time, module, format, args);
-    va_end(args);
-}
-void Logger::d(const char *module, const char *format, ...) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    va_list args;
-    va_start(args, format);
-    logger.vdebug(time, module, format, args);
-    va_end(args);
-}
-void Logger::e(const char *module, const char *format, ...) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    va_list args;
-    va_start(args, format);
-    logger.verror(time, module, format, args);
-    va_end(args);
-}
-void Logger::w(const char *module, const char *format, ...) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    va_list args;
-    va_start(args, format);
-    logger.vwarn(time, module, format, args);
-    va_end(args);
-}
-void Logger::t(const char *module, const char *format, ...) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    va_list args;
-    va_start(args, format);
-    logger.vtrace(time, module, format, args);
-    va_end(args);
-}
-// 打印十六进制数据
-void Logger::t(const char *module, const uint8_t *data, uint32_t len) {
-    if (!log_en) return;
-    char time[20];
-    cal_time(time);
-    constexpr size_t LINE_BYTES = 32;
-    char hex_line[LINE_BYTES * 3 + 1] = {0};    // 每字节两位+空格
-    for (uint32_t i = 0; i < len; i += LINE_BYTES) {
-        size_t line_len = (len - i > LINE_BYTES) ? LINE_BYTES : (len - i);
-        char *p = hex_line;
-        for (size_t j = 0; j < line_len; ++j) {
-            sprintf(p, "%02X ", data[i + j]);
-            p += 3;
-        }
-        *p = '\0';
-        logger.trace(time, module, "%s", hex_line);    // 修正：调用变参版本
-    }
-}
-void Logger::log_output(const uint8_t *message, uint32_t len) {
-// 将日志信息输出到控制台
+// Logger 类的静态方法，用于处理日志输出
+// 此方法可以访问 Logger 类的私有成员
+void Logger::log_output_impl(const uint8_t *message, uint32_t len) {
+    // 将日志信息输出到控制台
 #if LOGGER_QUEUE_MODE == LOGGER_SINGLE_QUEUE_MODE
     log_mutex.lock();
     if (message != nullptr && len > 0) {
@@ -123,6 +48,91 @@ void Logger::log_output(const uint8_t *message, uint32_t len) {
         // printf("log queue full\n");
     }
 #endif
+}
+
+// 用户自定义的日志输出函数实现
+// 此函数符合 log_output_func_t 类型定义
+// 调用 Logger 类的静态方法来处理日志输出
+void log_output(const uint8_t *message, uint32_t len) {
+    Logger::log_output_impl(message, len);
+}
+void Logger::cal_time(char *str) {
+    // 计算小时、分钟、秒和毫秒
+
+    uint32_t timestamp = erdp::Thread::get_system_1ms_ticks();
+    uint32_t hours = timestamp / (1000 * 60 * 60);
+    timestamp %= (1000 * 60 * 60);
+    uint32_t minutes = timestamp / (1000 * 60);
+    timestamp %= (1000 * 60);
+    uint32_t seconds = timestamp / 1000;
+    uint32_t milliseconds = timestamp % 1000;
+
+    // 使用 sprintf 将格式化的时间写入 str
+    sprintf(str, "%02u:%02u:%02u.%03u", hours, minutes, seconds, milliseconds);
+}
+
+void Logger::i(const char *module, const char *format, ...) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    va_list args;
+    va_start(args, format);
+    log_vinfo(&logger, time, module, format, args);
+    va_end(args);
+}
+void Logger::d(const char *module, const char *format, ...) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    va_list args;
+    va_start(args, format);
+    log_vdebug(&logger, time, module, format, args);
+    va_end(args);
+}
+void Logger::e(const char *module, const char *format, ...) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    va_list args;
+    va_start(args, format);
+    log_verror(&logger, time, module, format, args);
+    va_end(args);
+}
+void Logger::w(const char *module, const char *format, ...) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    va_list args;
+    va_start(args, format);
+    log_vwarn(&logger, time, module, format, args);
+    va_end(args);
+}
+void Logger::t(const char *module, const char *format, ...) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    va_list args;
+    va_start(args, format);
+    log_vtrace(&logger, time, module, format, args);
+    va_end(args);
+}
+// 打印十六进制数据
+void Logger::t(const char *module, const uint8_t *data, uint32_t len) {
+    if (!log_en) return;
+    char time[20];
+    cal_time(time);
+    constexpr size_t LINE_BYTES = 32;
+    char hex_line[LINE_BYTES * 3 + 1] = {0};    // 每字节两位+空格
+    for (uint32_t i = 0; i < len; i += LINE_BYTES) {
+        size_t line_len = (len - i > LINE_BYTES) ? LINE_BYTES : (len - i);
+        char *p = hex_line;
+        for (size_t j = 0; j < line_len; ++j) {
+            sprintf(p, "%02X ", data[i + j]);
+            p += 3;
+        }
+        *p = '\0';
+        log_trace(&logger, time, module, "%s", hex_line);    // 使用C语言接口
+    }
 }
 void Logger::log_thread_code() {
     uint8_t data;

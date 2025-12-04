@@ -3,9 +3,9 @@ set(OPENOCD_EXECUTABLE "openocd")
 
 # 定义默认烧录器（可以通过 CMake 变量 FLASH_PROGRAMMER 来切换）
 # 可选值: STLINK, STLINK_SLOW, DAP, DAP_SLOW
-# 默认使用慢速模式以提高稳定性
+# 默认使用 ST-Link 慢速模式以提高稳定性
 if(NOT DEFINED FLASH_PROGRAMMER)
-    set(FLASH_PROGRAMMER "DAP" CACHE STRING "Flash programmer type: STLINK, STLINK_SLOW, DAP, or DAP_SLOW")
+    set(FLASH_PROGRAMMER "STLINK_SLOW" CACHE STRING "Flash programmer type: STLINK, STLINK_SLOW, DAP, or DAP_SLOW")
 endif()
 
 # 根据选择的烧录器设置配置文件路径

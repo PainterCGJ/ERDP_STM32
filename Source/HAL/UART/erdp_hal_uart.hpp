@@ -4,7 +4,6 @@
 #include "erdp_hal.hpp"
 #include "erdp_if_uart.h"
 #include "erdp_if_gpio.h"
-#include "printf.h"
 
 #include <type_traits>
 #include <vector>

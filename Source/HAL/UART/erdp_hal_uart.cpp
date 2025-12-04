@@ -11,7 +11,8 @@ namespace erdp
             UartDev::__instance[uart]->__irq_handler();
         }
 
-        void _putchar(char character)
+        // C interface function for syscalls.c to output characters to UART
+        void erdp_uart_putchar(char character)
         {
             if (UartDev::get_debug_com() != nullptr)
             {

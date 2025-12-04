@@ -99,7 +99,9 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add Library sources
 # Note: printf library removed, using standard library printf instead
-
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    Source/Library/log/log.c
+)
 # Add Application sources
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Source/Application/main.cpp

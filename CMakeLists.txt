@@ -45,7 +45,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add system call stubs
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    Source/Kernel/Driver/syscalls.c
+    Source/Kernel/syscalls.c
 )
 
 # Add STM32 Standard Peripheral Library sources
@@ -98,9 +98,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 # Add Library sources
-target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-    Source/Library/printf/printf.c
-)
+# Note: printf library removed, using standard library printf instead
 
 # Add Application sources
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
@@ -130,7 +128,6 @@ target_include_directories(
   Source/OSAL
   Source/Adapter/log
   Source/Library
-  Source/Library/printf
   Source/Library/log
   Source/Common
   Source/Board

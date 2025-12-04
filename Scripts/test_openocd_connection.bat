@@ -45,3 +45,4 @@ openocd -f Scripts/OpenOCD/openocd_stlink_slow.cfg
 pause
 
 
+

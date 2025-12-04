@@ -3,15 +3,16 @@
 #include "erdp_hal.hpp"
 #include "erdp_if_exti.h"
 #include "erdp_if_gpio.h"
+
+// Forward declaration of the global C function
+extern "C" void erdp_exti_irq_handler(ERDP_GpioPin_t pin);
+
 namespace erdp
 {
-    // Forward declaration
-    void erdp_exti_irq_handler_internal(ERDP_GpioPin_t pin);
-    
     class Exti
     {
     public:
-        friend void erdp_exti_irq_handler_internal(ERDP_GpioPin_t pin);
+        friend void ::erdp_exti_irq_handler(ERDP_GpioPin_t pin);
         Exti() = default;
         Exti(const Exti &) = delete;
         Exti &operator=(const Exti &) = delete;
@@ -60,10 +61,4 @@ namespace erdp
         }
     };
 } // namespace erdp
-
-extern "C"
-{
-    void erdp_exti_irq_handler(ERDP_GpioPin_t pin);
-}
-
 #endif // __ERDP_HAL_EXTI_HPP__

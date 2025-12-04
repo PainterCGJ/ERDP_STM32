@@ -13,7 +13,6 @@ CompileFlags:
     - -DARM_MATH_CM4
     - -D__FPU_PRESENT=1
     - -D__FPU_USED=1
-    - -std=c++17
     - -fno-exceptions
     - -fno-rtti
     # 添加交叉编译器的标准库路径

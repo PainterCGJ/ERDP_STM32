@@ -201,3 +201,4 @@ Info : Listening on port 3333 for gdb connections
 
 如果手动测试 OpenOCD 失败，请按照上述方案逐步排查硬件和驱动问题。
 
+

@@ -133,7 +133,7 @@ IncludeIsMainSourceRegex: ''
 IndentAccessModifiers: false
 IndentCaseBlocks: false
 IndentCaseLabels: true
-IndentExternBlock: AfterExternBlock
+IndentExternBlock: Indent
 IndentGotoLabels: true
 IndentPPDirectives: None
 IndentRequiresClause: true
@@ -158,7 +158,7 @@ LineEnding:      DeriveLF
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: None
+NamespaceIndentation: All
 ObjCBinPackProtocolList: Never
 ObjCBlockIndentWidth: 4
 ObjCBreakBeforeNestedBlockParam: true

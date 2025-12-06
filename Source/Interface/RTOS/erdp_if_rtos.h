@@ -2,21 +2,20 @@
 #define __ERDP_IF_RTOS_H__
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 #include "FreeRTOS.h"
+#include "erdp_interface.h"
 #include "event_groups.h"
 #include "list.h"
 #include "queue.h"
-#include "task.h"
 #include "semphr.h"
-#include "erdp_interface.h"
+#include "task.h"
 
 /* Configuration Constants */
-#define DEFAULT_STACK_SIZE 128        /* Default task stack size in words */
-#define OS_WAIT_FOREVER portMAX_DELAY /* Infinite blocking period */
+#define DEFAULT_STACK_SIZE 128           /* Default task stack size in words */
+#define OS_WAIT_FOREVER    portMAX_DELAY /* Infinite blocking period */
 
     typedef TaskHandle_t OS_TaskHandle;
 
@@ -32,9 +31,8 @@ extern "C"
      * @note The task function should never return or should call task deletion API
      * @warning Stack size must be sufficient for the task's requirements
      */
-    OS_TaskHandle erdp_if_rtos_task_create(void (*task_function)(void *),
-                                           const char *name, uint32_t stack_size, void *arg,
-                                           uint32_t priority);
+    OS_TaskHandle erdp_if_rtos_task_create(void (*task_function)(void *), const char *name, uint32_t stack_size,
+                                           void *arg, uint32_t priority);
 
     /**
      * @brief Deletes a task and frees its memory.
@@ -160,8 +158,7 @@ extern "C"
      * @param[in] ticks_to_wait Maximum time to wait (in ticks)
      * @return true if successful, false if timeout or error
      */
-    bool erdp_if_rtos_queue_recv(OS_Queue os_queue, uint8_t *pxdata,
-                                 uint32_t ticks_to_wait);
+    bool erdp_if_rtos_queue_recv(OS_Queue os_queue, uint8_t *pxdata, uint32_t ticks_to_wait);
 
     /**
      * @brief Sends an item to a queue
@@ -171,8 +168,7 @@ extern "C"
      * @return true if successful, false if timeout or error
      * @note The data is copied into the queue, not referenced
      */
-    bool erdp_if_rtos_queue_send(OS_Queue os_queue, uint8_t *pxdata,
-                                 uint32_t ticks_to_wait);
+    bool erdp_if_rtos_queue_send(OS_Queue os_queue, uint8_t *pxdata, uint32_t ticks_to_wait);
 
     /**
      * @brief Overwrites an item in a queue (for length 1 queues)
@@ -286,12 +282,10 @@ extern "C"
      * @note This atomically sets bits then waits for specified bits to be set
      */
     OS_EventBits erdp_if_rtos_event_sync(OS_Event event, const OS_EventBits bits_to_set,
-                                         const OS_EventBits bits_wait_for,
-                                         uint32_t ticks_to_wait);
+                                         const OS_EventBits bits_wait_for, uint32_t ticks_to_wait);
 
     /* Semaphore API */
-    typedef enum
-    {
+    typedef enum {
         BINARY_TAG,     /* Binary semaphore type */
         MUTEX_TAG,      /* Mutex semaphore type */
         RECURISIVE_TAG, /* Recursive mutex type */
@@ -374,6 +368,69 @@ extern "C"
      * @note This function is called by the RTOS initialization
      */
     void erdp_if_rtos_system_config(void);
+
+    /* Timer API */
+    typedef struct {
+        TimerHandle_t handle;
+        void (*callback)(void *);
+        void *arg;
+    } FreeRtosTimerHandler_t;
+    typedef FreeRtosTimerHandler_t *OS_Timer;
+
+    /**
+     * @brief Creates a new timer
+     * @param[in] name Descriptive name for the timer (used for debugging)
+     * @param[in] period_ms Timer period in milliseconds
+     * @param[in] auto_reload Whether the timer should auto-reload
+     * @param[in] callback Function to call when timer expires
+     * @param[in] arg Argument to pass to the callback function
+     * @return Handle to the created timer
+     */
+    OS_Timer erdp_if_rtos_timer_create(const char *name, uint32_t period_ms, bool auto_reload, void (*callback)(void *),
+                                       void *arg);
+
+    /**
+     * @brief Starts a timer
+     * @param[in] timer Handle to the timer to start
+     * @return true if successful, false on error
+     */
+    bool erdp_if_rtos_timer_start(OS_Timer timer);
+
+    /**
+     * @brief Stops a timer
+     * @param[in] timer Handle to the timer to stop
+     * @return true if successful, false on error
+     */
+    bool erdp_if_rtos_timer_stop(OS_Timer timer);
+
+    /**
+     * @brief Deletes a timer
+     * @param[in] timer Handle to the timer to delete
+     * @return true if successful, false on error
+     */
+    bool erdp_if_rtos_timer_delete(OS_Timer timer);
+
+    /**
+     *  @brief Resets a timer to its initial state
+     *  @param[in] timer Handle to the timer to reset
+     *  @return true if successful, false on error
+     */
+    bool erdp_if_rtos_timer_reset(OS_Timer timer);
+
+    /**
+     * @brief Checks if a timer is active
+     * @param[in] timer Handle to the timer to check
+     * @return true if timer is active, false otherwise
+     */
+    bool erdp_if_rtos_timer_is_active(OS_Timer timer);
+
+    /**
+     * @brief Sets the period of a timer
+     * @param[in] timer Handle to the timer to set period for
+     * @param[in] period_ms New period in milliseconds
+     * @return true if successful, false on error
+     */
+    bool erdp_if_rtos_timer_set_period(OS_Timer timer, uint32_t period_ms);
 
 #ifdef __cplusplus
 }

@@ -12,7 +12,7 @@ namespace erdp
         }
 
         // C interface function for syscalls.c to output characters to UART
-        void erdp_uart_putchar(char character)
+     void erdp_uart_putchar(char character)
         {
             if (UartDev::get_debug_com() != nullptr)
             {

@@ -74,6 +74,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Source/Interface/Hardware/src/erdp_if_exti.c
     Source/Interface/Hardware/src/erdp_if_gpio.c
+    Source/Interface/Hardware/src/erdp_if_i2c.c
     Source/Interface/Hardware/src/erdp_if_spi.c
     Source/Interface/Hardware/src/erdp_if_uart.c
     Source/Interface/RTOS/erdp_if_rtos.c
@@ -85,6 +86,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Source/HAL/UART/erdp_hal_uart.cpp
     Source/HAL/SPI/erdp_hal_spi.cpp
     Source/HAL/EXTI/erdp_hal_exti.cpp
+    Source/HAL/I2C/erdp_hal_i2c.cpp
 )
 
 # Add OSAL sources
@@ -101,6 +103,12 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 # Note: printf library removed, using standard library printf instead
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Source/Library/log/log.c
+    Source/Library/oled/oled_iic.c
+)
+
+# Add Board sources
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    Source/Board/board.cpp
 )
 # Add Application sources
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
@@ -127,10 +135,12 @@ target_include_directories(
   Source/HAL/UART
   Source/HAL/SPI
   Source/HAL/EXTI
+  Source/HAL/I2C
   Source/OSAL
   Source/Adapter/log
   Source/Library
   Source/Library/log
+  Source/Library/oled
   Source/Common
   Source/Board
   Source/Application

@@ -1,7 +1,7 @@
 /*
 //D:\Users\painter\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output ./Build/erdp.bin ./Build/erdp.axf
 */
-#include <stdio.h>
+#include <cstdio>
 
 #include <vector>
 
@@ -13,7 +13,6 @@
 #include "erdp_hal_uart.hpp"
 #include "erdp_osal.hpp"
 #include "log_adapter.hpp"
-#include "oled_iic.h"
 
 using namespace erdp;
 using namespace std;
@@ -46,12 +45,7 @@ class LED : private GpioDev {
 };
 
 void Thread::main_thread(void *parm) {
-    OLED_Init();
-    OLED_Clear();
-    // OLED_InvertBlock(0, 0, 128, 64);
-    // OLED_ShowString(11,0,(uint8_t*)"Select a mode",16,1);
-    OLED_Fill(0, 0, 127, 63, 0);
-    OLED_Refresh_Gram();
+
 
     UartConfig_t uart_config = {
         .uart = ERDP_UART1,
@@ -87,17 +81,12 @@ void Thread::main_thread(void *parm) {
     // Exti exti(ERDP_GPIOC, ERDP_GPIO_PIN_1, ERDP_EXTI_FALLING_EDGE, 8);
     // exti.set_usr_irq_hendler([&]() { Logger::i("Main", "EXTI IRQ"); });
 
-    erdp::I2cDev oled_i2c(ERDP_I2C_MODE_I2C, oled_i2c_info, oled_i2c_cfg);
-    oled_i2c.send(0x78, (uint8_t*)"Hello World", 12);
-
     std::vector<uint8_t> buffer;
     while (1) {
         if (uart.recv(buffer)) {
             uart.send(buffer);
             buffer.clear();
         }
-        // OLED_ShowString(11,0,(uint8_t*)"Select a mode",16,1);
-        OLED_Refresh_Gram();
         Thread::delay_ms(10);
     }
 }

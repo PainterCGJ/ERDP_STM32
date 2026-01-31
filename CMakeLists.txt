@@ -100,10 +100,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 )
 
 # Add Library sources
-# Note: printf library removed, using standard library printf instead
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Source/Library/log/log.c
-    Source/Library/oled/oled_iic.c
 )
 
 # Add Board sources
@@ -140,7 +138,6 @@ target_include_directories(
   Source/Adapter/log
   Source/Library
   Source/Library/log
-  Source/Library/oled
   Source/Common
   Source/Board
   Source/Application
